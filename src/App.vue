@@ -11,7 +11,7 @@
       <v-divider></v-divider>
 
       <v-list dense nav>
-        <v-list-item v-for="item in items" :key="item.title" link>
+        <v-list-item v-for="item in items" :key="item.title" :to="item.to" link>
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
@@ -26,11 +26,11 @@
     <v-app-bar app>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>Application</v-toolbar-title>
+      <v-toolbar-title> PikDrive </v-toolbar-title>
     </v-app-bar>
 
     <v-main>
-      <!--  -->
+      <router-view></router-view>
     </v-main>
   </v-app>
 </template>
@@ -40,12 +40,19 @@ export default {
   data: () => ({
     drawer: null,
     items: [
-      { title: "Products", icon: "mdi-view-dashboard" },
-      { title: "Orders", icon: "mdi-image" },
-      { title: "Top sales", icon: "mdi-help-box" },
-      { title: "Suppliers", icon: "mdi-help-box" },
+      { title: "Products", icon: "mdi-view-dashboard", to: "/" },
+      { title: "Orders", icon: "mdi-cart", to: "/orders" },
+      { title: "Top sales", icon: "mdi-sale", to: "/top-sales" },
+      { title: "Suppliers", icon: "mdi-car", to: "/suppliers" },
       // { title: "Product suppliers", icon: "mdi-help-box" },
     ],
   }),
 };
 </script>
+
+<style scoped>
+img {
+  height: 35px;
+  /* padding-top: 12px; */
+}
+</style>
