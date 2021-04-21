@@ -50,9 +50,9 @@ export default {
 };
 </script>
 
-<style scoped>
-img {
-  height: 35px;
-  /* padding-top: 12px; */
+<stylescoped>
+body {
+  background: #e8f7f0;
+  color: red
 }
 </style>

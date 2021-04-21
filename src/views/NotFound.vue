@@ -1,9 +1,7 @@
 <template>
-  <div>
-    <template>
-      <h2>404</h2>
-      <h3>Page not found!</h3>
-    </template>
+  <div id="about-container">
+    <h2>404</h2>
+    <h3>Page not found!</h3>
   </div>
 </template>
   </div>
@@ -15,5 +13,9 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+#about-container {
+  text-align: center;
+  padding-top: 100px;
+}
 </style>
