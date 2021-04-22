@@ -1,8 +1,23 @@
 <template>
   <div class="container">
     <h3>Products available</h3>
+    <div class="progress-bar" v-if="loading">
+      <v-progress-circular
+        :width="3"
+        color="green"
+        indeterminate
+      ></v-progress-circular>
+      <h5>Loading ...</h5>
+    </div>
     <div class="products">
-      <Card class="card" v-for="product in allProducts" :key="product.id">
+      <v-card
+        elevation="2"
+        color="#41b883"
+        outlined
+        class="card"
+        v-for="product in allProducts"
+        :key="product.id"
+      >
         <v-card-title class="text-h5">Name: {{ product.name }} </v-card-title>
 
         <v-card-subtitle
@@ -14,7 +29,7 @@
             Quantity: {{ product.quantity }}</v-btn
           >
         </v-card-actions>
-      </Card>
+      </v-card>
     </div>
   </div>
 </template>
@@ -22,22 +37,27 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 
-import Card from "../components/Card";
-
 export default {
   name: "Home",
   components: {
     name: "Home",
-    components: {
-      Card,
-    },
+    components: {},
+  },
+  data() {
+    return {
+      loading: false,
+    };
   },
   methods: {
     ...mapActions(["fetchProducts"]),
   },
+  beforeCreate() {
+    this.loading = true;
+  },
   computed: mapGetters(["allProducts"]),
   created() {
     this.fetchProducts();
+    this.loading = false;
   },
 };
 </script>
@@ -51,10 +71,13 @@ export default {
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 1rem;
 }
-.card {
-  background: #41b883;
-  border-radius: 8px;
+
+.progress-bar {
+  text-align: center;
+  padding-top: 150px;
+  color: #41b883;
 }
+
 h3 {
   text-align: center;
   padding: 12px 0;

@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <v-card class="card" elevation="2" outlined> </v-card>
-  </div>
+  <div></div>
 </template>
 
 <script>
