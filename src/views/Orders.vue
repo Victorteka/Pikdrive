@@ -17,21 +17,31 @@
       </div>
 
       <div>
-        <!-- <v-btn class="ml-2 mt-5" outlined rounded small>
-          Quantity: {{ product.quantity }}</v-btn
-        > -->
         <p class="pt-2">Total ordered: {{ order.count }}</p>
         <v-chip
           class="mt-2"
           close-icon="mdi-delete"
           color="red"
           text-color="white"
+          @click="onDelete(order.id)"
         >
           Delete order
           <v-icon right> mdi-delete </v-icon>
         </v-chip>
       </div>
     </v-card>
+
+    <div class="text-center">
+      <v-snackbar color="red" v-model="snackbar" :timeout="timeout">
+        {{ text }}
+
+        <template v-slot:action="{ attrs }">
+          <v-btn color="white" text v-bind="attrs" @click="snackbar = false">
+            Close
+          </v-btn>
+        </template>
+      </v-snackbar>
+    </div>
   </div>
 </template>
 
@@ -40,8 +50,29 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   name: "Orders",
   components: {},
+  data() {
+    return {
+      dialog: false,
+      snackbar: false,
+      text: "Order Deleted",
+      timeout: 2000,
+    };
+  },
   methods: {
-    ...mapActions(["fetchOrders"]),
+    ...mapActions(["fetchOrders", "deleteOrder"]),
+    onDelete(id) {
+      if (confirm("Are you sure?")) {
+        console.log("" + id);
+        this.deleteOrder(id);
+      }
+      this.snackbar = true;
+      this.dialog = true;
+    },
+    confirmDelete(id) {
+      if (confirm()) {
+        console.log("" + id);
+      }
+    },
   },
   computed: mapGetters(["allOrders"]),
   created() {
