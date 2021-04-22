@@ -31,17 +31,31 @@
         </v-card-actions>
       </v-card>
     </div>
+    <AddProduct />
+    <v-btn
+      color="pink"
+      fab
+      dark
+      medium
+      absolute
+      bottom
+      fixed
+      right
+      class="mb-12 mr-8"
+      @click="showAddProductForm"
+      ><v-icon>mdi-plus</v-icon></v-btn
+    >
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import AddProduct from "../components/AddProduct";
 
 export default {
   name: "Home",
   components: {
-    name: "Home",
-    components: {},
+    AddProduct,
   },
   data() {
     return {
@@ -50,11 +64,14 @@ export default {
   },
   methods: {
     ...mapActions(["fetchProducts"]),
+    showAddProductForm() {
+      this.showDialog;
+    },
   },
   beforeCreate() {
     this.loading = true;
   },
-  computed: mapGetters(["allProducts"]),
+  computed: { ...mapGetters(["allProducts"]), ...mapActions(["showDialog"]) },
   created() {
     this.fetchProducts();
     this.loading = false;
