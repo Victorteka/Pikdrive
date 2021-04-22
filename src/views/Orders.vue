@@ -16,12 +16,21 @@
         </v-chip>
       </div>
 
-      <v-card-actions>
+      <div>
         <!-- <v-btn class="ml-2 mt-5" outlined rounded small>
           Quantity: {{ product.quantity }}</v-btn
         > -->
-        <p>Total ordered: {{ order.count }}</p>
-      </v-card-actions>
+        <p class="pt-2">Total ordered: {{ order.count }}</p>
+        <v-chip
+          class="mt-2"
+          close-icon="mdi-delete"
+          color="red"
+          text-color="white"
+        >
+          Delete order
+          <v-icon right> mdi-delete </v-icon>
+        </v-chip>
+      </div>
     </v-card>
   </div>
 </template>
@@ -48,6 +57,9 @@ h1 {
 .card {
   max-width: 600px;
   margin: auto;
+}
+.order-bottom {
+  display: flex;
 }
 .title-section {
   display: flex;
