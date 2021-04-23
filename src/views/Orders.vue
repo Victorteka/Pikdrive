@@ -12,7 +12,7 @@
         <h4>Order no: {{ order.orderNumber }}</h4>
         <v-chip class="ma-2" calendar color="green" outlined>
           <v-icon left> mdi-calendar-check </v-icon>
-          {{ order.created_at }}
+          {{ order.created_at | formatDate }}
         </v-chip>
       </div>
 
@@ -67,14 +67,15 @@
                 v-model="name"
                 :counter="45"
                 :rules="nameRules"
-                label="Name"
+                label="Item name"
                 required
               ></v-text-field>
               <v-text-field
                 v-model="description"
                 :counter="45"
                 :rules="descriptionRules"
-                label="Description"
+                label="Item ID"
+                type="number"
                 required
               ></v-text-field>
               <v-text-field
@@ -108,6 +109,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+
 export default {
   name: "Orders",
   components: {},
@@ -123,7 +125,7 @@ export default {
       quantity: "",
       nameRules: [
         (v) => !!v || "Name is required",
-        (v) => (v && v.length <= 45) || "Name must be less than 10 characters",
+        // (v) => (v && v.length <= 45) || "Name must be less than 10 characters",
       ],
       descriptionRules: [
         (v) => !!v || "Description is required",
@@ -153,10 +155,15 @@ export default {
     showAddQualityForm() {
       this.dialog = true;
     },
-    submit(name, description, quantityInput) {
-      // console.log(typeof quantity);
+    submit(name, descriptionInput, quantityInput) {
       const quantity = parseInt(quantityInput);
-      const order = { name: "qwertyui", description: "", quantity: 20 };
+      const description = parseInt(descriptionInput);
+      const order = {
+        items: name,
+        "items.*.id": description,
+        "items.*.quantity": quantity,
+      };
+      console.log(order);
       this.postOrder(order);
     },
   },

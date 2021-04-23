@@ -52,7 +52,7 @@
           <span class="ml-4">Joined:</span>
           <v-chip class="ma-2" calendar color="green" outlined>
             <v-icon left> mdi-calendar-check </v-icon>
-            {{ supplier.created_at }}
+            {{ supplier.created_at | formatDate }}
           </v-chip>
         </template>
         <v-divider></v-divider>
@@ -93,7 +93,7 @@ export default {
     ...mapActions(["fetchSuppliers", "addSupplier"]),
     submit(name) {
       console.log(name);
-      this.addSupplier(name);
+      this.addSupplier({ name });
       this.dialog = false;
       this.snackbar = true;
     },

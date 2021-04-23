@@ -21,7 +21,7 @@ const actions = {
         commit('setOrderAfterDelete', id )
     },
     async postOrder({commit}, order){
-        const response = await axios.post('https://codechallenge.pikdrive.com/api/new-order/', order)
+        const response = await axios.post('https://codechallenge.pikdrive.com/api/new-order', order)
         console.log(response.data)
     }
 }
