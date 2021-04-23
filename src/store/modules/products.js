@@ -22,7 +22,7 @@ const actions = {
 }
 
 const mutations = {
-    setProducts : (state, products) => (state.products = products),
+    setProducts : (state, products) => (state.products = products)
 }
 
 export default {

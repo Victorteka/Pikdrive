@@ -165,6 +165,7 @@ export default {
       };
       console.log(order);
       this.postOrder(order);
+      this.dialog = false;
     },
   },
   computed: mapGetters(["allOrders"]),

@@ -8,7 +8,7 @@
         color="green"
         indeterminate
       ></v-progress-circular>
-      <h5>Loading ...</h5>
+      <h5 class="pt-4">Loading ...</h5>
     </div>
     <!-- product card  -->
     <div class="products">
@@ -141,13 +141,10 @@ export default {
     },
   },
 
-  beforeCreate() {
-    this.loading = true;
-  },
-
-  computed: { ...mapGetters(["allProducts"]) },
+  computed: { ...mapGetters(["allProducts", "isLoading"]) },
 
   created() {
+    this.loading = true;
     this.fetchProducts();
     this.loading = false;
   },
