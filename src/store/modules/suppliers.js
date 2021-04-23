@@ -14,7 +14,7 @@ const actions = {
         commit('setSuppliers', response.data.data)
     },
     async addSupplier({commit}, name){
-        const response = await axios.post('https://codechallenge.pikdrive.com/api/new-supplier',{
+        const response = await axios.post('https://codechallenge.pikdrive.com/api/new-supplier/',{
             name
         })
         console.log(response.data)

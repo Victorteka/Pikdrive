@@ -18,13 +18,17 @@ const actions = {
             id
         })
         console.log(response)
-        // commit('setOrderAfterDelete', response.data.data )
+        commit('setOrderAfterDelete', id )
+    },
+    async postOrder({commit}, order){
+        const response = await axios.post('https://codechallenge.pikdrive.com/api/new-order/', order)
+        console.log(response.data)
     }
 }
 
 const mutations = {
     setOrders: (state, orders) => (state.orders = orders),
-    // setOrderAfterDelete: (state, orders) => 
+    setOrderAfterDelete: (state, id) => state.orders = state.olders.filter(order=> order.id !==id)
 }
 
 

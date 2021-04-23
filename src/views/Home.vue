@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <h3>Products available</h3>
+    <!-- loading progressbar  -->
     <div class="progress-bar" v-if="loading">
       <v-progress-circular
         :width="3"
@@ -9,6 +10,7 @@
       ></v-progress-circular>
       <h5>Loading ...</h5>
     </div>
+    <!-- product card  -->
     <div class="products">
       <v-card
         elevation="2"
@@ -31,7 +33,7 @@
         </v-card-actions>
       </v-card>
     </div>
-    <AddProduct />
+    <!-- fab  -->
     <v-btn
       color="pink"
       fab
@@ -42,36 +44,109 @@
       fixed
       right
       class="mb-12 mr-8"
-      @click="showAddProductForm"
+      @click="showProductForm"
       ><v-icon>mdi-plus</v-icon></v-btn
     >
+    <!-- product modal form  -->
+    <v-row justify="center">
+      <v-dialog v-model="dialog" persistent max-width="600px">
+        <v-card>
+          <v-card-title>
+            <span class="headline">Create new product</span>
+          </v-card-title>
+          <v-card-text>
+            <v-form ref="form" v-model="valid" lazy-validation>
+              <v-text-field
+                v-model="name"
+                :counter="45"
+                :rules="nameRules"
+                label="Name"
+                required
+              ></v-text-field>
+              <v-text-field
+                v-model="description"
+                :counter="45"
+                :rules="descriptionRules"
+                label="Description"
+                required
+              ></v-text-field>
+              <v-text-field
+                v-model="quantity"
+                :counter="4"
+                :rules="quantityRules"
+                label="Quantity"
+                type="number"
+                required
+              ></v-text-field>
+            </v-form>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="dialog = false">
+              Close
+            </v-btn>
+            <v-btn
+              color="blue darken-1"
+              text
+              @click="submitProduct(name, description, quantity)"
+            >
+              Create order
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import AddProduct from "../components/AddProduct";
 
 export default {
   name: "Home",
-  components: {
-    AddProduct,
-  },
+  components: {},
+
   data() {
     return {
       loading: false,
+      dialog: false,
+      valid: true,
+      name: "",
+      description: "",
+      quantity: "",
+      nameRules: [
+        (v) => !!v || "Name is required",
+        (v) => (v && v.length <= 45) || "Name must be less than 10 characters",
+      ],
+      descriptionRules: [
+        (v) => !!v || "Description is required",
+        (v) => (v && v.length <= 45) || "Name must be less than 10 characters",
+      ],
+      quantityRules: [
+        (v) => !!v || "Quantity is required",
+        (v) => (v && v.length <= 45) || "Name must be less than 10 characters",
+      ],
     };
   },
+
   methods: {
-    ...mapActions(["fetchProducts"]),
-    showAddProductForm() {
-      this.showDialog;
+    ...mapActions(["fetchProducts", "postProducts"]),
+    showProductForm() {
+      this.dialog = true;
+    },
+    submitProduct(name, description, quantity) {
+      console.log({ name, description, quantity });
+      this.postProducts({ name, description, quantity });
+      this.dialog = false;
     },
   },
+
   beforeCreate() {
     this.loading = true;
   },
-  computed: { ...mapGetters(["allProducts"]), ...mapActions(["showDialog"]) },
+
+  computed: { ...mapGetters(["allProducts"]) },
+
   created() {
     this.fetchProducts();
     this.loading = false;

@@ -42,6 +42,67 @@
         </template>
       </v-snackbar>
     </div>
+    <v-btn
+      color="pink"
+      fab
+      dark
+      medium
+      absolute
+      bottom
+      fixed
+      right
+      class="mb-12 mr-8"
+      @click="showAddQualityForm"
+      ><v-icon>mdi-plus</v-icon></v-btn
+    >
+    <v-row justify="center">
+      <v-dialog v-model="dialog" persistent max-width="600px">
+        <v-card>
+          <v-card-title>
+            <span class="headline">Create new order</span>
+          </v-card-title>
+          <v-card-text>
+            <v-form ref="form" v-model="valid" lazy-validation>
+              <v-text-field
+                v-model="name"
+                :counter="45"
+                :rules="nameRules"
+                label="Name"
+                required
+              ></v-text-field>
+              <v-text-field
+                v-model="description"
+                :counter="45"
+                :rules="descriptionRules"
+                label="Description"
+                required
+              ></v-text-field>
+              <v-text-field
+                v-model="quantity"
+                :counter="4"
+                :rules="quantityRules"
+                label="Quantity"
+                type="number"
+                required
+              ></v-text-field>
+            </v-form>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="dialog = false">
+              Close
+            </v-btn>
+            <v-btn
+              color="blue darken-1"
+              text
+              @click="submit(name, description, quantity)"
+            >
+              Create order
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
   </div>
 </template>
 
@@ -56,10 +117,26 @@ export default {
       snackbar: false,
       text: "Order Deleted",
       timeout: 2000,
+      valid: true,
+      name: "",
+      description: "",
+      quantity: "",
+      nameRules: [
+        (v) => !!v || "Name is required",
+        (v) => (v && v.length <= 45) || "Name must be less than 10 characters",
+      ],
+      descriptionRules: [
+        (v) => !!v || "Description is required",
+        (v) => (v && v.length <= 45) || "Name must be less than 10 characters",
+      ],
+      quantityRules: [
+        (v) => !!v || "Quantity is required",
+        (v) => (v && v.length <= 45) || "Name must be less than 10 characters",
+      ],
     };
   },
   methods: {
-    ...mapActions(["fetchOrders", "deleteOrder"]),
+    ...mapActions(["fetchOrders", "deleteOrder", "postOrder"]),
     onDelete(id) {
       if (confirm("Are you sure?")) {
         console.log("" + id);
@@ -72,6 +149,15 @@ export default {
       if (confirm()) {
         console.log("" + id);
       }
+    },
+    showAddQualityForm() {
+      this.dialog = true;
+    },
+    submit(name, description, quantityInput) {
+      // console.log(typeof quantity);
+      const quantity = parseInt(quantityInput);
+      const order = { name: "qwertyui", description: "", quantity: 20 };
+      this.postOrder(order);
     },
   },
   computed: mapGetters(["allOrders"]),
